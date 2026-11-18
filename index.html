@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhotoMbued</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+  <div class="layout-wrapper">
+    <!-- Sidebar Kiri: Pilihan Frame -->
+    <aside class="sidebar">
+      <h2><i class="fas fa-border-all"></i> Pilih Frame</h2>
+      <div class="frame-gallery">
+        <img src="frame/frame1.png" class="frame-thumb active" data-src="frame/frame1.png" alt="Radiohead">
+        <img src="frame/frame2.png" class="frame-thumb" data-src="frame/frame2.png" alt="Pokemon!">
+        <img src="frame/frame3.png" class="frame-thumb" data-src="frame/frame3.png" alt="Toy Story">
+        <img src="frame/frame4.png" class="frame-thumb" data-src="frame/frame4.png" alt="A04">
+      </div>
+    </aside>
+
+    <!-- Bagian Utama: Kamera & Preview -->
+    <main class="app-container">
+      <header>
+        <h1>PhotoMbued</h1>
+      </header>
+
+      <!-- Bagian Kamera -->
+      <div id="camera-section" class="view-section active">
+        <div class="screen-wrapper">
+          <video id="camera-stream" autoplay playsinline></video>
+          <img id="frame-overlay" src="frame/frame1.png" alt="Frame Overlay">
+
+          <div id="countdown-display" class="hidden">3</div>
+          <div id="flash-effect"></div>
+        </div>
+
+
+        
+        <div class="controls">
+          <div class="toggle-group">
+            <button id="btn-mirror" class="icon-btn active" title="Mirror Mode"><i
+                class="fas fa-arrows-alt-h"></i></button>
+            <button id="btn-timer" class="icon-btn" title="Timer 3 Detik"><i class="fas fa-clock"></i></button>
+            <button id="btn-flash" class="icon-btn active" title="Efek Flash"><i class="fas fa-bolt"></i></button>
+          </div>
+          <button id="btn-capture" class="capture-btn"><i class="fas fa-camera"></i> CAPTURE</button>
+        </div>
+      </div>
+
+      <!-- Bagian Review Foto -->
+      <div id="preview-section" class="view-section hidden">
+        <div class="screen-wrapper">
+          <canvas id="photo-canvas" width="1280" height="960"></canvas>
+        </div>
+
+        <!-- Checklist Opsi Simpan -->
+        <div class="controls preview-controls">
+          <div class="save-checklist">
+            <label class="check-option">
+              <input type="checkbox" id="chk-save-draft" checked>
+              <span>Masuk ke Draft</span>
+            </label>
+            <label class="check-option">
+              <input type="checkbox" id="chk-save-device" checked>
+              <span>Simpan ke Device</span>
+            </label>
+          </div>
+
+          <div class="preview-buttons">
+            <button id="btn-retake" class="secondary-btn"><i class="fas fa-redo"></i> Retake</button>
+            <button id="btn-confirm-save" class="primary-btn"><i class="fas fa-check-circle"></i> Save</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bagian Galeri Draft dengan Checklist -->
+      <div id="drafts-container" class="drafts-container hidden">
+        <div class="drafts-header">
+          <h3><i class="fas fa-folder-open"></i> Draft Tersimpan  (<span id="draft-count">0</span>)</h3>
+          <div class="draft-bulk-actions">
+            <label class="select-all-label">
+              <input type="checkbox" id="chk-select-all-drafts">
+              <span>Select All</span>
+            </label>
+            <button id="btn-download-selected" class="small-primary-btn" disabled>
+              <i class="fas fa-download"></i> Simpan Terpilih  (<span id="selected-count">0</span>)
+            </button>
+            <button id="btn-delete-selected" class="small-danger-btn" disabled title="Hapus draft terpilih">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+        <div id="draft-list" class="draft-list"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Pop-up Konfirmasi Hapus Draft -->
+  <div id="delete-modal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <div class="modal-icon">
+        <i class="fas fa-trash-alt"></i>
+      </div>
+      <h3>Hapus Foto Draft Ini?</h3>
+      <p>kamu yakin mau hapus  <strong id="delete-modal-count">0</strong>  foto terpilih dari draft? 
+        foto yang udah dihapus gabisa dibalikin lagi, loh..</p>
+      <div class="modal-actions">
+        <button id="btn-cancel-delete" class="secondary-btn">Gak Jadi</button>
+        <button id="btn-confirm-delete" class="danger-btn">Ya, Hapus aja</button>
+      </div>
+    </div>
+  </div>
+  
+  <script src="script.js"></script>
+  </body>
+
+</html>

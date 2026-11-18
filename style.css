@@ -1,0 +1,615 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+    --bg-color: #0f172a;
+    --surface: #1e293b;
+    --primary: #93032e;
+    --secondary:#e6e1de;
+    --text: #f8fafc;
+}
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg-color);
+    color: var(--text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* --- Layout Utama --- */
+.layout-wrapper {
+    display: flex;
+    gap: 30px;
+    width: 100%;
+    max-width: 1100px;
+    padding: 20px;
+    box-sizing: border-box;
+    align-items: flex-start;
+}
+
+/* --- Sidebar Frame Kiri --- */
+.sidebar {
+    width: 180px;
+    background: var(--surface);
+    padding: 22px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.356);
+}
+
+.sidebar h2 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.frame-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    max-height: 70vh;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.frame-gallery::-webkit-scrollbar {
+    width: 6px;
+}
+
+.frame-gallery::-webkit-scrollbar-thumb {
+    background: #475569;
+    border-radius: 10px;
+}
+
+.frame-thumb {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: contain;
+    background: #000;
+    border-radius: 12px;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.frame-thumb:hover {
+    transform: scale(1.02);
+}
+
+.frame-thumb.active {
+    border-color: var(--primary);
+    box-shadow: 0 0 15px rgba(236, 72, 153, 0.4);
+}
+
+/* --- Area Kamera & Preview --- */
+.app-container {
+    flex: 1;
+    width: 100%;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 25px;
+    background: -webkit-linear-gradient(45deg, #93032e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.view-section {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.view-section.active {
+    display: flex;
+}
+
+.screen-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    aspect-ratio: 4 / 3;
+    background: #000000ad;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--surface);
+}
+
+video,
+#photo-canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mirrored {
+    transform: scaleX(-1);
+}
+
+#frame-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+    object-fit: contain;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.fade-out {
+    opacity: 0;
+}
+
+.fade-in {
+    opacity: 1;
+}
+
+#countdown-display {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 150px;
+    font-weight: 750;
+    color: white;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+    z-index: 20;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#flash-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: white;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 30;
+}
+
+.flash-active {
+    animation: flashAnim 0.6s ease-out;
+}
+
+@keyframes flashAnim {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+/* --- Kontrol Tombol --- */
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    max-width: 640px;
+    background: var(--surface);
+    padding: 20px;
+    border-radius: 16px;
+    box-sizing: border-box;
+}
+
+.preview-controls {
+    flex-direction: column;
+    gap: 16px;
+}
+
+.save-checklist {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+}
+
+.check-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #0f172a;
+    padding: 10px 18px;
+    border-radius: 12px;
+    border: 1px solid #334155;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    user-select: none;
+    transition: 0.2s;
+}
+
+.check-option:hover {
+    border-color: var(--primary);
+}
+
+.check-option input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+.preview-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    width: 100%;
+}
+
+.toggle-group {
+    display: flex;
+    gap: 10px;
+}
+
+.icon-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    border: none;
+    background: #0f172a;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 18px;
+}
+
+.icon-btn:hover {
+    background: #334155;
+}
+
+.icon-btn.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+}
+
+.capture-btn {
+    flex: 1;
+    max-width: 250px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 30px;
+    background: white;
+    color: #0f172a;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.capture-btn:hover {
+    background: #e2e8f0;
+    transform: translateY(-2px);
+}
+
+.primary-btn,
+.secondary-btn {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.primary-btn {
+    background: var(--primary);
+    color: white;
+}
+
+.primary-btn:hover {
+    background: #93032e;
+}
+
+.secondary-btn {
+    background: #334155;
+    color: white;
+}
+
+.secondary-btn:hover {
+    background: #475569;
+}
+
+/* --- Galeri Draft Tersimpan --- */
+.drafts-container {
+    width: 100%;
+    max-width: 640px;
+    margin: 20px auto 0;
+    background: var(--surface);
+    padding: 18px 20px;
+    border-radius: 16px;
+    box-sizing: border-box;
+}
+
+.drafts-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.drafts-header h3 {
+    margin: 0;
+    font-size: 15px;
+    color: #f8fafc;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.draft-bulk-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.select-all-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #cbd5e1;
+    cursor: pointer;
+    user-select: none;
+}
+
+.select-all-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--secondary);
+    cursor: pointer;
+}
+
+.small-primary-btn,
+.small-danger-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.2s;
+}
+
+.small-primary-btn {
+    background: var(--secondary);
+    color: #5c021d;
+}
+
+.small-primary-btn:hover:not(:disabled) {
+    background: #e6e1de;
+}
+
+.small-primary-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.small-danger-btn {
+    background: #eb0000;
+    color: white;
+}
+
+.small-danger-btn:hover:not(:disabled) {
+    background: #eb0000;
+}
+
+.small-danger-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.draft-list {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+}
+
+.draft-list::-webkit-scrollbar {
+    height: 6px;
+}
+
+.draft-list::-webkit-scrollbar-thumb {
+    background: #475569;
+    border-radius: 10px;
+}
+
+.draft-item {
+    position: relative;
+    width: 120px;
+    aspect-ratio: 4 / 3;
+    flex-shrink: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid #334155;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.draft-item.checked {
+    border-color: var(--secondary);
+    box-shadow: 0 0 12px rgba(139, 92, 246, 0.5);
+}
+
+.draft-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.draft-item-checkbox {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--secondary);
+    cursor: pointer;
+    z-index: 5;
+}
+
+@media (max-width: 800px) {
+    .layout-wrapper {
+        flex-direction: column-reverse;
+    }
+
+    .sidebar {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .frame-gallery {
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    .frame-thumb {
+        width: 120px;
+        flex-shrink: 0;
+    }
+}
+
+/* --- Pop-up Modal Konfirmasi Hapus --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 27, 48, 0.726);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.modal-box {
+    background: var(--surface);
+    border: 1px solid #2b384b;
+    border-radius: 20px;
+    padding: 28px 24px;
+    max-width: 380px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.664);
+    animation: modalPopIn 0.25s ease-out;
+}
+
+@keyframes modalPopIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    background: rgba(239, 68, 68, 0.15);
+    color: #c01f1f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+}
+
+.modal-box h3 {
+    margin: 0 0 10px;
+    font-size: 20px;
+    color: #f8fafc;
+}
+
+.modal-box p {
+    margin: 0 0 24px;
+    font-size: 14px;
+    color: #94a3b8;
+    line-height: 1.5;
+}
+
+.modal-box p strong {
+    color: #f8fafc;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.modal-actions button {
+    flex: 1;
+    justify-content: center;
+    padding: 11px 16px;
+    font-size: 14px;
+}
+
+.danger-btn {
+    border: none;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #d83131;
+    color: white;
+}
+
+.danger-btn:hover {
+    background: #d30000;
+}
+
